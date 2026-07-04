@@ -101,83 +101,83 @@ export class IKEAShell {
             scene.addBox({ pos: [cx + offset[0], vy, cz + offset[2]], scale: [0.4, height, 0.4], mult: color, room: room });
 
             // // ?landmark ?bookmark Add the inner walls that partition the quadrants
-            // // Q1 (SW)
-            // if (quadIdx === 0) {
-            //     // Vertical wall: pillar -> south
-            //     scene.addBox({
-            //         pos: [cx + offset[0], vy, cz + S / 4 + offset[2]],
-            //         scale: [T, height, S / 2],
-            //         mult: color,
-            //         room: room
-            //     });
+            // Q1 (SW)
+            if (quadIdx === 0) {
+                // Vertical wall: pillar -> south
+                scene.addBox({
+                    pos: [cx + offset[0], vy, cz + S / 4 + offset[2]],
+                    scale: [T, height, S / 2],
+                    mult: color,
+                    room: room
+                });
 
-            //     // Horizontal wall: pillar -> west
-            //     scene.addBox({
-            //         pos: [cx - S / 4 + offset[0], vy, cz + offset[2]],
-            //         scale: [S / 2, height, T],
-            //         mult: color,
-            //         room: room
-            //     });
-            // }
+                // Horizontal wall: pillar -> west
+                scene.addBox({
+                    pos: [cx - S / 4 + offset[0], vy, cz + offset[2]],
+                    scale: [S / 2, height, T],
+                    mult: color,
+                    room: room
+                });
+            }
 
-            // // Q2 (NW)
-            // if (quadIdx === 1) {
-            //     // // Vertical wall: pillar -> north
-            //     // ?note Removed wall to fit IKEA storage bay
-            //     // scene.addBox({
-            //     //     pos: [cx + offset[0], vy, cz - S / 4 + offset[2]],
-            //     //     scale: [T, height, S / 2],
-            //     //     mult: color,
-            //     //     room: room
-            //     // });
+            // Q2 (NW)
+            if (quadIdx === 1) {
+                // // Vertical wall: pillar -> north
+                // ?note Removed wall to fit IKEA storage bay
+                // scene.addBox({
+                //     pos: [cx + offset[0], vy, cz - S / 4 + offset[2]],
+                //     scale: [T, height, S / 2],
+                //     mult: color,
+                //     room: room
+                // });
 
-            //     // Horizontal wall: pillar -> west
-            //     scene.addBox({
-            //         pos: [cx - S / 4 + offset[0], vy, cz + offset[2]],
-            //         scale: [S / 2, height, T],
-            //         mult: color,
-            //         room: room
-            //     });
-            // }
+                // Horizontal wall: pillar -> west
+                scene.addBox({
+                    pos: [cx - S / 4 + offset[0], vy, cz + offset[2]],
+                    scale: [S / 2, height, T],
+                    mult: color,
+                    room: room
+                });
+            }
 
-            // // // Q3 (NE)
-            // if (quadIdx === 2) {
-            //     // // // Vertical wall: pillar -> north
-            //     // ?note Removed wall to fit the IKEA storage bay
-            //     // scene.addBox({
-            //     //     pos: [cx + offset[0], vy, cz - S / 4 + offset[2]],
-            //     //     scale: [T, height, S / 2],
-            //     //     mult: color,
-            //     //     room: room
-            //     // });
+            // // Q3 (NE)
+            if (quadIdx === 2) {
+                // // // Vertical wall: pillar -> north
+                // ?note Removed wall to fit the IKEA storage bay
+                // scene.addBox({
+                //     pos: [cx + offset[0], vy, cz - S / 4 + offset[2]],
+                //     scale: [T, height, S / 2],
+                //     mult: color,
+                //     room: room
+                // });
 
-            //     // Horizontal wall: pillar -> east
-            //     scene.addBox({
-            //         pos: [cx + S / 4 + offset[0], vy, cz + offset[2]],
-            //         scale: [S / 2, height, T],
-            //         mult: color,
-            //         room: room
-            //     });
-            // }
+                // Horizontal wall: pillar -> east
+                scene.addBox({
+                    pos: [cx + S / 4 + offset[0], vy, cz + offset[2]],
+                    scale: [S / 2, height, T],
+                    mult: color,
+                    room: room
+                });
+            }
 
-            // // Q4 (SE)
-            // if (quadIdx === 3) {
-            //     // Vertical wall: pillar -> south
-            //     scene.addBox({
-            //         pos: [cx + offset[0], vy, cz + S / 4 + offset[2]],
-            //         scale: [T, height, S / 2],
-            //         mult: color,
-            //         room: room
-            //     });
+            // Q4 (SE)
+            if (quadIdx === 3) {
+                // Vertical wall: pillar -> south
+                scene.addBox({
+                    pos: [cx + offset[0], vy, cz + S / 4 + offset[2]],
+                    scale: [T, height, S / 2],
+                    mult: color,
+                    room: room
+                });
 
-            //     // Horizontal wall: pillar -> east
-            //     scene.addBox({
-            //         pos: [cx + S / 4 + offset[0], vy, cz + offset[2]],
-            //         scale: [S / 2, height, T],
-            //         mult: color,
-            //         room: room
-            //     });
-            // }
+                // Horizontal wall: pillar -> east
+                scene.addBox({
+                    pos: [cx + S / 4 + offset[0], vy, cz + offset[2]],
+                    scale: [S / 2, height, T],
+                    mult: color,
+                    room: room
+                });
+            }
 }
 
         if (init) {

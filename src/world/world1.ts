@@ -25,11 +25,47 @@ function addShelving(scene: Scene, room: string, startingX: number, endingX: num
     }
 }
 
+function addHorizontalAisles(
+    scene: Scene,
+    room: string,
+    startX: number,
+    endX: number,
+    y: number,
+    startZ: number,
+    aisleCount: number,
+    aisleSpacing: number,
+    shelfWidth: number,
+    shelfHeight: number,
+    shelfDepth: number,
+    rowGap: number
+) {
+    const minX = Math.min(startX, endX);
+    const maxX = Math.max(startX, endX);
+
+    for (let i = 0; i < aisleCount; i++) {
+        const z = startZ + i * (shelfDepth + aisleSpacing);
+
+        addShelving(
+            scene,
+            room,
+            minX,
+            maxX,
+            y,
+            z,
+            z,
+            shelfWidth,
+            shelfHeight,
+            shelfDepth,
+            rowGap,
+            0 // no extra Z spacing inside aisle
+        );
+    }
+}
+
 export function buildWorld1(init: boolean, existingScene?: Scene): Scene {
     const scene = existingScene || new Scene();
 
     const worldGeometry = [
-        // Huge floor
         { pos: [0, -0.5, 10] as Vec3, scale: [500, 1, 500] as Vec3, mult: [0.2, 1, 0.2, 1], room: 'Null' },
 
         // /// TUNNEL 1 REFERENCE BLOCKS

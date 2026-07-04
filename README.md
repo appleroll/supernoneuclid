@@ -10,8 +10,21 @@ Wierd IKEA Sim, is a non-euclidean (and abstract) simulation somewhat inspired b
 
 This was mainly made to be a small project made so I can explore the world of graphic design, while also taking a break from my other projects. This project is also created as part of the HackClub Stardance event.<br>
 
+## Features
+1. Custom noneuclidean portal rendering
+2. Some shelves and an IKEA-ish shell
+Will add (though may not add in current ship):
+1. Custom glTF or OBJ rendering
+2. Blahaj (in plural)
+3. Actual content in the rooms.
+
+
 ## Quick Note
 This project is not designed to advertise, defame, or portray IKEA in any way. You could even say that IKEA was only used as a small inspiration, and that the simulation is not meant to be even remotely similar to the real thing. If it was too realistic, it wouldn't be fun too make (too much time worrying about furniture placements and 3d modelling), and I might (though probably not) get sued or something.
+
+Also, this project is very, very buggy. In fact, I would such humanslop undeniable evidence that this code has not been severely AI-generated, and may remain to be one of the few non-AI works of humanslop produced in the year 2026. For example, there was a problem where the portals would get this outline if I increased the near plane threshold, and if I decreased it near portals won't render. Thus, I resorted to minimising the obvious-ness of both bugs instead of prioritising one or the other.
+
+There are currently **3** bugs (including the 2 above) that are in the simulation. Have fun bug-hunting!
 
 ## Repository Structure
 For those of you curious, here's how the source code is structured.
