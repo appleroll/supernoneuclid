@@ -33,7 +33,7 @@ export class Camera {
         if (input.isKeyDown('shift')) {
             if (input.isKeyDown('w')) { 
                 this.pos = Vec3.sub(this.pos, Vec3.mul(moveFwd, dt * 7));
-                this.pos[1] = 1.5 + Math.sin(Date.now() * 0.01) * 0.05;
+                this.pos[1] = 1.5 + Math.sin(Date.now() * 0.02) * 0.05;
             }
             if (input.isKeyDown('s')) this.pos = Vec3.add(this.pos, Vec3.mul(moveFwd, dt * 7));
             if (input.isKeyDown('a')) this.pos = Vec3.sub(this.pos, Vec3.mul(right, dt * 7));
@@ -50,7 +50,7 @@ export class Camera {
             if (input.isKeyDown('w')) {
                 this.pos = Vec3.sub(this.pos, Vec3.mul(moveFwd, dt * 5));
                 // move player up and down in a sine wave
-                this.pos[1] = 1.5 + Math.sin(Date.now() * 0.01) * 0.05;
+                this.pos[1] = 1.5 + Math.sin(Date.now() * 0.015) * 0.07;
             }
             if (input.isKeyDown('s')) this.pos = Vec3.add(this.pos, Vec3.mul(moveFwd, dt * 5));
             if (input.isKeyDown('a')) this.pos = Vec3.sub(this.pos, Vec3.mul(right, dt * 5));

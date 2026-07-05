@@ -60,8 +60,8 @@ export class Scene {
                 const targetPos = isRoomA ? portal.posB : portal.posA;
                 const virtualRoom = isRoomA ? portal.roomB : portal.roomA;
 
-                const scaleX = portal.axis === 'X' ? 0 : portal.width;
-                const scaleZ = portal.axis === 'X' ? portal.width : 0;
+                const scaleX = portal.axis === 'X' ? 0.005 : portal.width;
+                const scaleZ = portal.axis === 'X' ? portal.width : 0.005;
                 const portalModelMatrix = Mat4.multiply(Mat4.translation(currentPos), Mat4.scaling([scaleX, portal.height, scaleZ]));
 
                 // Shift the virtual camera
