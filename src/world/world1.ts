@@ -1,4 +1,4 @@
-//! COMMENTED CODE IN THIS FILE ARE AI-GENERATED DEMO SCRIPTS
+// ?usernotice COMMENTED CODE WITH TAG ?AI IN THIS FILE ARE AI-GENERATED DEMO SCRIPTS
 // They are meant to serve as a reference in case I would need to use similar features in the future
 
 import { Scene } from './Scene';
@@ -17,6 +17,7 @@ export function buildWorld1(init: boolean, existingScene?: Scene): Scene {
     const worldGeometry = [
         { pos: [0, -0.5, 10] as Vec3, scale: [500, 1, 500] as Vec3, mult: [0.2, 1, 0.2, 1], room: 'Null' },
 
+        // ?AI
         // /// TUNNEL 1 REFERENCE BLOCKS
         // { pos: [0, 0.5, -15] as Vec3, scale: [1, 2, 1] as Vec3, mult: [0.8, 0.2, 0.2, 1], room: 'Null' },
         // { pos: [0, 0.5, 5] as Vec3, scale: [1, 2, 1] as Vec3, mult: [0.8, 0.2, 0.2, 1], room: 'Null' },
@@ -26,6 +27,7 @@ export function buildWorld1(init: boolean, existingScene?: Scene): Scene {
         // { pos: [15, 0.5, 5] as Vec3, scale: [1, 2, 1] as Vec3, mult: [0.8, 0.2, 0.2, 1], room: 'Null' }        
     ];
 
+    // ?AI
     // // Restored your original Tunnel 1
     // const secretTunnel = new Tunnel({
     //     mainRoom: 'A',
@@ -111,7 +113,6 @@ export function buildWorld1(init: boolean, existingScene?: Scene): Scene {
             1, 3
         );
 
-        // Extra two shelves on the left
         addShelving(
             scene,
             "Q7",
@@ -145,6 +146,7 @@ export function buildWorld1(init: boolean, existingScene?: Scene): Scene {
             1, 3
         );
 
+        // ?AI
         // // 2. Build Room B (Compresses space)
         // worldGeometry.forEach(b => {
         //     const zOffset = b.pos[2] > -5 ? 0 : ROOM_B_Z_OFFSET;

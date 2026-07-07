@@ -1,5 +1,8 @@
 // //?note FILE DEPRECATED FOR NOW
 // // Uncomment once we add a purpose for tunnels to be in the game.
+// ?AI This script was originally built into world1 and was later moved here with the help of AI. Currently not in use.
+
+
 // import { Vec3 } from '../math/Vec3';
 // import { Portal } from './Portal';
 // import { Scene } from '../world/Scene';

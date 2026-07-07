@@ -24,7 +24,7 @@ export function addPallet(
 ) {
     const palletHeight = 0.22;
     const woodColour = [0.60, 0.42, 0.22, 1];
-    const boxColours = [[0.96, 0.96, 0.95, 1]];
+    const boxColours = [[0.96, 0.96, 0.95, 1], [0.92, 0.92, 0.95, 1], [0.88, 0.88, 0.88, 1], [0.84, 0.95, 0.95, 1]];
     const topColour = [0.92, 0.82, 0.60, 1];
 
     scene.addBox({ pos: [x, y, z], scale: [width, palletHeight, depth], mult: woodColour, room });
@@ -39,6 +39,7 @@ export function addPallet(
     const boxHeight = Math.min(0.5, Math.min(boxWidth, boxDepth) * 0.92);
     const startX = x - width / 2 + boxWidth / 2;
     const startZ = z - depth / 2 + boxDepth / 2;
+    const colour = randomChoice(boxColours);
 
     for (let row = 0; row < rows; row++) {
         for (let column = 0; column < columns; column++) {
@@ -46,9 +47,13 @@ export function addPallet(
 
             // randomise the stack height to recreate missing boxes
             const rand = Math.random();
-            if (rand < 0.15) {
+            if (rand < 0.1) {
+                stackHeight = 0; // Missing all boxes
+            } if (rand < 0.3) {
+                stackHeight -= 3; // Missing 3 from top
+            } else if (rand < 0.5) {
                 stackHeight -= 2; // Missing 2 from top
-            } else if (rand < 0.45) {
+            } else if (rand < 0.7) {
                 stackHeight -= 1; // Missing 1 from top
             }
 
@@ -59,9 +64,9 @@ export function addPallet(
                 const itemY = y + palletHeight + halfHeight + layer * boxHeight * 0.98;
 
                 scene.addBox({
-                    pos: [itemX, itemY, itemZ], 
-                    scale: [boxWidth, boxHeight, boxDepth],
-                    mult: randomChoice(boxColours),
+                    pos: [itemX, itemY - 0.1, itemZ], 
+                    scale: [boxWidth + 0.1, boxHeight, boxDepth + 0.1],
+                    mult: colour,
                     room
                 });
             }
