@@ -1,6 +1,6 @@
 import { Mat4 } from '../math/Mat4';
 import wgsl from './core.wgsl?raw';
-import { loadGltfMeshData, type MeshData } from './GltfLoader';
+// import { loadGltfMeshData, type MeshData } from './GltfLoader';
 
 type RenderModel = {
     model: Float32Array;
