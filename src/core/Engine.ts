@@ -1,5 +1,21 @@
 import { Mat4 } from '../math/Mat4';
 import wgsl from './core.wgsl?raw';
+import { loadGltfMeshData, type MeshData } from './GltfLoader';
+
+type RenderModel = {
+    model: Float32Array;
+    mult: number[];
+    meshId: string;
+    portalIndex?: number;
+};
+
+type MeshResources = {
+    vertexBuffer: GPUBuffer;
+    colorBuffer: GPUBuffer;
+    indexBuffer?: GPUBuffer;
+    indexCount: number;
+    indexFormat?: GPUIndexFormat;
+};
 
 export class Engine {
     canvas: HTMLCanvasElement;
@@ -8,8 +24,7 @@ export class Engine {
     format!: GPUTextureFormat;
     pipeline!: GPURenderPipeline;
     
-    vertexBuffer!: GPUBuffer;
-    colorBuffer!: GPUBuffer;
+    meshes: Map<string, MeshResources> = new Map();
     
     cameraUniformBuffer!: GPUBuffer;
     cameraBindGroup!: GPUBindGroup;
@@ -61,6 +76,7 @@ export class Engine {
         this.dummyTextureView = dummyTex.createView();
 
         this.initBuffers();
+        await this.loadBuiltinMeshes();
         this.resize(this.canvas.width, this.canvas.height);
     }
 
@@ -94,11 +110,46 @@ export class Engine {
         const colors = new Float32Array(36 * 4);
         for (let j = 0; j < 6; j++) for (let i = 0; i < 6; i++) colors.set(faceColors[j], (j * 6 + i) * 4);
 
-        this.vertexBuffer = this.createBuffer(positions, GPUBufferUsage.VERTEX);
-        this.colorBuffer = this.createBuffer(colors, GPUBufferUsage.VERTEX);
+        this.meshes.set('box', {
+            vertexBuffer: this.createBuffer(positions, GPUBufferUsage.VERTEX),
+            colorBuffer: this.createBuffer(colors, GPUBufferUsage.VERTEX),
+            indexCount: 36
+        });
 
         this.cameraUniformBuffer = this.device.createBuffer({ size: 64, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
         this.cameraBindGroup = this.device.createBindGroup({ layout: this.pipeline.getBindGroupLayout(0), entries: [{ binding: 0, resource: { buffer: this.cameraUniformBuffer } }] });
+    }
+
+    async loadBuiltinMeshes() {
+        await Promise.all([
+            this.loadMesh('blahaj', new URL('../assets/blahaj.glb', import.meta.url).href),
+            this.loadMesh('billy-small', new URL('../assets/ikea_billy_small.glb', import.meta.url).href),
+        ]);
+    }
+
+    async loadMesh(meshId: string, url: string) {
+        const meshData = await loadGltfMeshData(url);
+        this.meshes.set(meshId, this.createMeshResources(meshData));
+    }
+
+    createMeshResources(meshData: MeshData): MeshResources {
+        const positionBuffer = this.createBuffer(meshData.positions, GPUBufferUsage.VERTEX);
+        const colorBuffer = this.createBuffer(meshData.colors, GPUBufferUsage.VERTEX);
+        const indexBuffer = this.device.createBuffer({
+            size: meshData.indices.byteLength,
+            usage: GPUBufferUsage.INDEX | GPUBufferUsage.COPY_DST,
+            mappedAtCreation: true
+        });
+        new Uint8Array(indexBuffer.getMappedRange()).set(new Uint8Array(meshData.indices.buffer, meshData.indices.byteOffset, meshData.indices.byteLength));
+        indexBuffer.unmap();
+
+        return {
+            vertexBuffer: positionBuffer,
+            colorBuffer,
+            indexBuffer,
+            indexCount: meshData.indices.length,
+            indexFormat: meshData.indexFormat,
+        };
     }
 
     createBuffer(data: Float32Array, usage: number) {
@@ -119,7 +170,7 @@ export class Engine {
     render(
             projMatrix: Float32Array, 
             viewMatrix: Float32Array, 
-            models: {model: Float32Array, mult: number[], portalIndex?: number}[], 
+            models: RenderModel[], 
             targetView?: GPUTextureView, 
             portalViews?: GPUTextureView[]
         ) {
@@ -140,8 +191,10 @@ export class Engine {
 
             pass.setPipeline(this.pipeline);
             pass.setBindGroup(0, this.cameraBindGroup);
-            pass.setVertexBuffer(0, this.vertexBuffer);
-            pass.setVertexBuffer(1, this.colorBuffer);
+            const dummyMesh = this.meshes.get('box');
+            if (!dummyMesh) {
+                return;
+            }
 
             const pBindGroups = (portalViews || []).map(view => 
                 this.device.createBindGroup({
@@ -156,6 +209,7 @@ export class Engine {
             });
 
             models.forEach((box, i) => {
+                const mesh = this.meshes.get(box.meshId) ?? dummyMesh;
                 let cache = this.modelBindGroups.get(i.toString());
                 if (!cache) {
                     const buffer = this.device.createBuffer({
@@ -182,7 +236,14 @@ export class Engine {
             }
 
             pass.setBindGroup(1, cache.bindGroup);
-            pass.draw(36, 1, 0, 0);
+            pass.setVertexBuffer(0, mesh.vertexBuffer);
+            pass.setVertexBuffer(1, mesh.colorBuffer);
+            if (mesh.indexBuffer) {
+                pass.setIndexBuffer(mesh.indexBuffer, mesh.indexFormat ?? 'uint16');
+                pass.drawIndexed(mesh.indexCount, 1, 0, 0, 0);
+            } else {
+                pass.draw(mesh.indexCount, 1, 0, 0);
+            }
         });
 
         pass.end();

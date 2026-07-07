@@ -19,6 +19,37 @@ export const Mat4 = {
     scaling: (s: Vec3) => new Float32Array([
         s[0],0,0,0, 0,s[1],0,0, 0,0,s[2],0, 0,0,0,1
     ]),
+    rotationX: (angle: number) => {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+        return new Float32Array([
+            1,0,0,0,
+            0,c,s,0,
+            0,-s,c,0,
+            0,0,0,1
+        ]);
+    },
+    rotationY: (angle: number) => {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+        return new Float32Array([
+            c,0,-s,0,
+            0,1,0,0,
+            s,0,c,0,
+            0,0,0,1
+        ]);
+    },
+    rotationZ: (angle: number) => {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+        return new Float32Array([
+            c,s,0,0,
+            -s,c,0,0,
+            0,0,1,0,
+            0,0,0,1
+        ]);
+    },
+    rotation: (r: Vec3) => Mat4.multiply(Mat4.multiply(Mat4.rotationZ(r[2]), Mat4.rotationY(r[1])), Mat4.rotationX(r[0])),
     perspective: (fov: number, aspect: number, near: number, far: number) => {
         const f = 1.0 / Math.tan(fov / 2);
         return new Float32Array([

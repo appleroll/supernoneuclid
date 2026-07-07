@@ -65,3 +65,17 @@ export function addShelf(
         }
     }
 }
+
+export function addShelving(scene: Scene, room: string, startingX: number, endingX: number, y: number, startingZ: number, endingZ: number, shelfWidth: number, shelfHeight: number, shelfDepth: number, xSpacing: number, zSpacing: number) {
+    const minX = Math.min(startingX, endingX);
+    const maxX = Math.max(startingX, endingX);
+
+    const minZ = Math.min(startingZ, endingZ);
+    const maxZ = Math.max(startingZ, endingZ);
+
+    for (let x = minX; x <= maxX; x += shelfWidth + xSpacing) {
+        for (let z = minZ; z <= maxZ; z += shelfDepth + zSpacing) {
+            addShelf(scene, x, y, z, room, shelfWidth, shelfHeight, shelfDepth);
+        }
+    }
+}

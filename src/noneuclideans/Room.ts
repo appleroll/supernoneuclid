@@ -2,6 +2,7 @@ import { Vec3 } from '../math/Vec3';
 import { Portal } from './Portal';
 import { Scene } from '../world/Scene';
 import { ikeaColours } from '../colour/IKEAColours';
+import { addPallettes } from '../world/Pallettes';
 
 export interface IKEAShellConfig {
     mainRoom: string;
@@ -56,7 +57,6 @@ export class IKEAShell {
 
             // Floor & Ceiling for this quadrant
             if (room !== "Q6" && room !== "Q7") { // Q6 and Q7 are storage areas, so they should be concrete
-
                 scene.addBox({ pos: [vx, vy - height/2, vz], scale: [S, T, S], mult: color, room: room });
                 scene.addBox({ pos: [vx, vy + height/2, vz], scale: [S, T, S], mult: color, room: room });
             } else {
@@ -178,6 +178,7 @@ export class IKEAShell {
                     room: room
                 });
             }
+            addPallettes(scene, room, vx, vz);
 }
 
         if (init) {

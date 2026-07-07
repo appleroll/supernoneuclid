@@ -22,7 +22,7 @@ Will add (though may not add in current ship):
 ## Quick Note
 This project is not designed to advertise, defame, or portray IKEA in any way. You could even say that IKEA was only used as a small inspiration, and that the simulation is not meant to be even remotely similar to the real thing. If it was too realistic, it wouldn't be fun too make (too much time worrying about furniture placements and 3d modelling), and I might (though probably not) get sued or something.
 
-Also, this project is very, very buggy. In fact, I would such humanslop undeniable evidence that this code has not been severely AI-generated, and may remain to be one of the few non-AI works of humanslop produced in the year 2026. For example, there was a problem where the portals would get this outline if I increased the near plane threshold, and if I decreased it near portals won't render. Thus, I resorted to minimising the obvious-ness of both bugs instead of prioritising one or the other.
+Also, this project is very, very buggy. In fact, I would such humanslop undeniable evidence that this code has not been severely AI-generated, and may remain to be one of the few non-AI works of humanslop produced in the year 2026. For example, there was a problem where the portals would get this outline if I increased the near plane threshold, and if I decreased it near portals won't render. Thus, I resorted to fixing the near plane threshold bug, since I could probably make an excuse for the other bug.
 
 There are currently **3** bugs (including the 2 above) that are in the simulation. Have fun bug-hunting!
 

@@ -3,20 +3,33 @@ import { Mat4 } from '../math/Mat4';
 import { Camera } from './Camera';
 import { Portal } from '../noneuclideans/Portal';
 
-export interface RenderBox {
+export interface RenderItem {
     pos: Vec3;
     scale: Vec3;
     mult: number[];
     room: string;
+    meshId?: string;
+    rotation?: Vec3;
+}
+
+export interface RenderModel {
+    model: Float32Array;
+    mult: number[];
+    meshId: string;
+    portalIndex?: number;
 }
 
 export class Scene {
-    public boxes: RenderBox[] = [];
+    public boxes: RenderItem[] = [];
     public portals: Portal[] = [];
     public activeRoom: string = 'A';
 
-    addBox(box: RenderBox) {
-        this.boxes.push(box);
+    addBox(box: RenderItem) {
+        this.boxes.push({ meshId: 'box', rotation: [0, 0, 0], ...box });
+    }
+
+    addMesh(item: RenderItem & { meshId: string }) {
+        this.boxes.push({ rotation: [0, 0, 0], ...item });
     }
 
     addPortal(portal: Portal) {
@@ -42,13 +55,17 @@ export class Scene {
         const buildRoom = (room: string, camPos: Vec3, depth: number, incomingPortal?: Portal): number => {
             if (depth === 0) return -1; // means we hit the depth limit
 
-            const models: any[] = [];
+            const models: RenderModel[] = [];
             const activePortals = this.portals.filter(p => p.roomA === room || p.roomB === room);
 
             this.boxes.filter(b => b.room === room).forEach(b => {
                 models.push({ 
-                    model: Mat4.multiply(Mat4.translation(b.pos), Mat4.scaling(b.scale)), 
-                    mult: b.mult 
+                    model: Mat4.multiply(
+                        Mat4.multiply(Mat4.translation(b.pos), Mat4.rotation(b.rotation ?? [0, 0, 0])),
+                        Mat4.scaling(b.scale)
+                    ),
+                    mult: b.mult,
+                    meshId: b.meshId ?? 'box'
                 });
             });
 
@@ -71,9 +88,9 @@ export class Scene {
                 const innerTextureIndex = buildRoom(virtualRoom, virtualCamPos, depth - 1, portal);
 
                 if (innerTextureIndex === -1) {
-                    models.push({ model: portalModelMatrix, mult: [0.8, 0.8, 0.8, 1.0] });
+                    models.push({ model: portalModelMatrix, mult: [0.8, 0.8, 0.8, 1.0], meshId: 'box' });
                 } else {
-                    models.push({ model: portalModelMatrix, mult: [1, 1, 1, 1], portalIndex: innerTextureIndex });
+                    models.push({ model: portalModelMatrix, mult: [1, 1, 1, 1], portalIndex: innerTextureIndex, meshId: 'box' });
                 }
             });
 
